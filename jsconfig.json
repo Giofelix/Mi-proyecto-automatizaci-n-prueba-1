@@ -1,0 +1,9 @@
+// jsconfig.json en la raíz
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@pages/*": ["pages/*"]  // "@pages" = carpeta "pages" en la raíz
+    }
+  }
+}

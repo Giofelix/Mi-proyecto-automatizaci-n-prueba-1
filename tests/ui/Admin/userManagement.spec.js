@@ -1,8 +1,8 @@
 // tests/admin/navegacion.spec.js
 import { test } from '@playwright/test';
-import { LoginPage } from '../../pages/login/LoginPage';
-import { SidebarComponent } from '../../pages/componentes/sidebarcomponent';
-import { TopbarComponent } from '../../pages/componentes/TopbarComponent';
+import { LoginPage } from '@pages/login/LoginPage';
+import { SidebarComponent } from '@pages/componentes/sidebarcomponent';
+import { TopbarComponent } from '@pages/componentes/TopbarComponent';
 
 test('Navegación dinámica por el sidebar', async ({ page }) => {
     const login = new LoginPage(page);
