@@ -1,6 +1,6 @@
 // tests/autenticacion.spec.js
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../../pages/login/LoginPage'; // Ajusta la ruta si es necesario
+import { LoginPage } from '@pages/login/LoginPage'; // Ajusta la ruta si es necesario
 
 test('debe iniciar sesión exitosamente con credenciales válidas', async ({ page }) => {
   const loginPage = new LoginPage(page);
