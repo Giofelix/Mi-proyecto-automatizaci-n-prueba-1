@@ -8,14 +8,17 @@ export class SidebarComponent {
     this.searchInput = page.getByRole('textbox', { name: 'Search' });
     // Localizador del título de la página (el encabezado que confirma la navegación)
     this.headerTitle = page.locator('.oxd-topbar-header-breadcrumb-module');
+    this.optionsList = page.getByRole('link', { name: 'Admin' });
   }
 
   /**
    * Navega a cualquier opción del menú lateral y espera dinámicamente la carga.
    */
   async selectOption(optionName) {
-    // 1. Localizador dinámico
+    // 1. Localizador dinámico para la opción del menú
     const option = this.page.getByRole('link', { name: optionName });
+    // 1. Localizador dinámico
+    ;
 
     // 2. ESPERA DINÁMICA INICIAL: Asegurar que la opción sea visible antes de clickear
     await option.waitFor({ state: 'visible', timeout: 5000 });
