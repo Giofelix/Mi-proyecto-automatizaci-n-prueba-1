@@ -4,11 +4,12 @@ import { expect } from '@playwright/test'; // Importamos expect para las asercio
 export class SidebarComponent {
   constructor(page) {
     this.page = page;
-    // Localizador del buscador
-    this.searchInput = page.getByRole('textbox', { name: 'Search' });
+    // Localizador del buscador (mejor usar getByPlaceholder para los inputs con placeholder explícito)
+    this.searchInput = page.getByPlaceholder('Search');
     // Localizador del título de la página (el encabezado que confirma la navegación)
     this.headerTitle = page.locator('.oxd-topbar-header-breadcrumb-module');
-    this.optionsList = page.getByRole('link', { name: 'Admin' });
+    // Localizador general para las opciones de menú (útil por si quieres iterar o contar los links del sidebar)
+    this.optionsList = page.locator('.oxd-main-menu-item');
   }
 
   /**
@@ -17,12 +18,10 @@ export class SidebarComponent {
   async selectOption(optionName) {
     // 1. Localizador dinámico para la opción del menú
     const option = this.page.getByRole('link', { name: optionName });
-    // 1. Localizador dinámico
-    ;
 
     // 2. ESPERA DINÁMICA INICIAL: Asegurar que la opción sea visible antes de clickear
     await option.waitFor({ state: 'visible', timeout: 5000 });
-    
+
     // 3. ACCIÓN
     await option.click();
 
@@ -38,7 +37,7 @@ export class SidebarComponent {
   async searchInMenu(term) {
     await this.searchInput.clear();
     await this.searchInput.fill(term);
-    
+
     // Opcional: Esperar a que los resultados se filtren (espera dinámica)
     // Podríamos esperar a que solo aparezca el link que buscamos
     await this.page.getByRole('link', { name: term }).waitFor({ state: 'visible' });

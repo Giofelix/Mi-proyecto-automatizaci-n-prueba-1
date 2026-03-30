@@ -5,9 +5,10 @@ class LoginPage {
     // Localizadores de los elementos de la página de login
 
     // Localizadores de los campos y botones
-    this.userInput = page.getByRole('textbox', { name: 'Username' });
-    this.passwordInput = page.getByRole('textbox', { name: 'Password' });
-    this.loginButton = page.getByRole('button', { name: 'Login' });
+    // Sustituimos getByRole por selectores de atributo exactos para evitar timeouts de cálculo de accesibilidad (flakiness)
+    this.userInput = page.locator('input[name="username"]');
+    this.passwordInput = page.locator('input[name="password"]');
+    this.loginButton = page.locator('button[type="submit"]');
 
     // Localizador del mensaje de error
     this.invalidCredentialsMessage = page.locator('.oxd-alert-content-text');
@@ -46,8 +47,12 @@ class LoginPage {
   }
 
   async goto() {
+    // Para entornos SPA inestables como OrangeHRM demo, esperamos a que la página cargue su estructura básica.
+    await this.page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login', { waitUntil: 'load', timeout: 60000 });
 
-    await this.page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+    // En lugar de una espera estática, esperamos a que el input sea visible.
+    // Esto es mucho más robusto para servidores lentos o bajo carga de trabajadores (workers).
+    await this.userInput.waitFor({ state: 'visible', timeout: 30000 });
   }
 
 
